@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: "Code scanning and dependency review"
 
 on:
   push:
@@ -9,6 +9,18 @@ on:
     - cron: '40 3 * * 1'
 
 jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+          deny-licenses: LGPL-2.0, BSD-2-Clause
+  
   codeQL:
     name: Analyze (${{ matrix.language }})
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
