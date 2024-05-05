@@ -1,5 +1,8 @@
 name: "Code scanning and dependency review"
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ "main" ]
@@ -16,8 +19,9 @@ jobs:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
         with:
-          fail-on-severity: moderate
-          deny-licenses: LGPL-2.0, BSD-2-Clause
+          fail-on-severity: critical
+          license-check: true
+          vulnerability-check: true
   
   codeQL:
     name: Analyze (${{ matrix.language }})
