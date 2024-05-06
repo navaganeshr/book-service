@@ -1,0 +1,21 @@
+name: "Dpendency review"
+
+permissions:
+  contents: read
+
+on: [pull_request]
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+          license-check: true
+          vulnerability-check: true
+  
